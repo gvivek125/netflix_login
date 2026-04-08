@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 
 function App() {
   const [email, setEmail] = useState("");
@@ -7,27 +8,19 @@ function App() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      // ✅ Use your Render backend URL
       const res = await fetch(
         "https://netflix-login-500p.onrender.com/api/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         }
       );
 
       const data = await res.json();
-
-      if (data.success) {
-        setMessage("Login Successful 🎉");
-      } else {
-        setMessage(data.message || "Login Failed ❌");
-      }
+      if (data.success) setMessage("Login Successful 🎉");
+      else setMessage(data.message || "Login Failed ❌");
     } catch (error) {
       setMessage("Server Error 🚨");
       console.error(error);
@@ -35,14 +28,7 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "50px auto",
-        textAlign: "center",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
+    <div className="container">
       <h2>Netflix Login Demo</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -50,42 +36,18 @@ function App() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{
-            display: "block",
-            width: "100%",
-            margin: "10px 0",
-            padding: "10px",
-            fontSize: "16px",
-          }}
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            display: "block",
-            width: "100%",
-            margin: "10px 0",
-            padding: "10px",
-            fontSize: "16px",
-          }}
         />
-        <button
-          type="submit"
-          style={{
-            padding: "10px 20px",
-            marginTop: "10px",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Login
-        </button>
+        <button type="submit">Login</button>
       </form>
-      {message && <p style={{ marginTop: "20px" }}>{message}</p>}
+      {message && <div className="message">{message}</div>}
 
-      <div style={{ marginTop: "30px", fontSize: "14px", color: "#555" }}>
+      <div className="demo-credentials">
         <p>
           Demo Credentials: <br />
           Email: <b>test@gmail.com</b> <br />
